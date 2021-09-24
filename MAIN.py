@@ -2,8 +2,7 @@ import win32com.client as win32
 import os
 import time
 import shutil
-from tqdm import tqdm
-from tqdm import trange
+
 
 
 class Main: 
