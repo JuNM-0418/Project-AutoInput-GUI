@@ -40,10 +40,10 @@ def Process():
                 Start.setPageNum()
                 Start.setLastPageNum()
 
-                PageNum = int(Start.getPageNum())
-
                 Start.DuplicateImage()
 
+                PageNum = int(Start.getPageNum())
+                
                 WorkBarState = tk.DoubleVar()
                 WorkBar = ttk.Progressbar(root,maximum=PageNum,variable=WorkBarState)   
                 WorkBar.pack() 
