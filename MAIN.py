@@ -1,8 +1,6 @@
 import win32com.client as win32
 import os
-import time
 import shutil
-
 
 
 class Main: 
@@ -33,12 +31,7 @@ class Main:
         self.FileName = FileName
     def getFileName(self):
         return self.FileName
-
-    def setBuildingNum(self,BuildingNum):
-        self.BuildingNum = BuildingNum
-    def getBuildingNum(self):
-        return self.BuildingNum
-    
+  
     def setSheetsName(self, SheetsName):
         self.SheetsName = SheetsName
     def getSheetsName(self):
