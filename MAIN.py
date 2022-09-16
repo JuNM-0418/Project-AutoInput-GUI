@@ -106,7 +106,7 @@ class Main:
 
     # 결함의 위치를 삽입해주는 함수
     def inputLocation(self, location_Row):
-        self.ws.Cells(int(location_Row)+1, 17).Value = "=\""+(str(self.ws.Cells(int(self.contentCycle)+8, 33)))+"\"&\""+(str(self.ws.Cells(int(self.contentCycle)+8, 35)))+"\""
+        self.ws.Cells(int(location_Row)+1, 17).Value = (str(self.ws.Cells(int(self.contentCycle)+8, 33)))+"\n"+(str(self.ws.Cells(int(self.contentCycle)+8, 35)))
         return ()
 
 
