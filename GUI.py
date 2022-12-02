@@ -7,6 +7,10 @@ import time
 
 
 def selectFile():
+    labelSelectSheet.pack()
+    buttonSelectSheet.pack()
+
+
     excelFilePath = filedialog.askopenfilename(initialdir='./',title='파일선택', filetypes=(('xlsx files','*.xlsx'),('all files','*.*')))
     Start.setExcelFilePath(excelFilePath) 
     Start.setWorkBook()
@@ -140,7 +144,7 @@ def inputImg():
 
 
 
-Start = Document.Info()
+Start = Document.ExcelFileInfo()
 
 root = tk.Tk()
 root.title("안전점검")
@@ -164,9 +168,9 @@ tkinter.ttk.Separator(root, orient="horizontal").pack(fill="both")
 
 
 labelSelectSheet = tk.Label(root,text="시트를 선택하세요.")
-labelSelectSheet.pack()
+# labelSelectSheet.pack()
 buttonSelectSheet = tk.Button(root, text="열기", command=selectSheet)
-buttonSelectSheet.pack()
+# buttonSelectSheet.pack()
 
 
 buttonInsertImg = tk.Button(root, text="삽입 시작", command=inputImg)

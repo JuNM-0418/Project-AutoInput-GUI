@@ -3,13 +3,13 @@ import os
 import shutil
 
 
-class Info: 
+class ExcelFileInfo: 
     
     excelFilePath = None
     imgFilePathList = []
     sheetsNameList = []
     imgFileList = []
-    imageNum = []  # .jpg로 끝나는 사진의 개수
+    imgNum = []  # .jpg로 끝나는 사진의 개수
     pageNum = [] # 사진이 무조건 다 들어가는 페이지수
     lastPageNum = [] # 마지막 페이지에서 모자란 사진 숫자
 
@@ -24,10 +24,8 @@ class Info:
     location_Col_1 = "B" # 고정 열
     location_Col_2 = "U" # 번호확인 함수 위치
     location_Col_3 = "O" # 설명확인 함수 위치
-    imageCycle = 1   # 각 동의 폴더에서 넣을 사진의 순서
+    imgCycle = 1   # 각 동의 폴더에서 넣을 사진의 순서
     contentCycle = 1 # 조사표 내용이 삽입되는 순서
-    fileList = None
-    fileListJpg = None
 
 
     def setExcelFilePath(self, excelFilePath):
@@ -59,10 +57,10 @@ class Info:
 
     def setImageNum(self):
         for size in self.getImgFileList():
-            self.imageNum.append(len(size))
+            self.imgNum.append(len(size))
 
     def getImageNum(self):
-        return self.imageNum
+        return self.imgNum
     
     def setPageNum(self):
         for size in self.getImageNum():
@@ -79,8 +77,8 @@ class Info:
     
 
     def setWorkBook(self):
-
         self.wb = self.excel.Workbooks.Open(self.getExcelFilePath())
+
     def getWorkBook(self):
         return self.wb
 
@@ -94,11 +92,11 @@ class Info:
         return self.ws
 
     def setWorkSheetsName(self):
-        # self.ws = self.wb.Sheets(self.sheetsName)
         self.wsName = [sheet.Name for sheet in self.wb.Sheets]
         
     def getWorkSheetsName(self):
         return self.wsName
+
 
 # 이미지를 복사해주는 함수    
     def duplicateImage(self):
@@ -106,23 +104,9 @@ class Info:
             if ((size < 3) and (size > 0)):
                 self.pageNum[index] += 1
                 for k in range(1, self.lastPageNum[index]+1, 1):
-                    shutil.copyfile(self.getImgFilePathList()[index] +  "\\" + str(self.imageNum[index]) + ".jpg",self.getImgFilePathList()[index] +  "\\" + str(self.imageNum[index]+1) + ".jpg")
-                    self.imgFileList[index].append(str(self.imageNum[index]+1) + ".jpg")
-           
-    
-    # def duplicateImage(self):
-    #     try:
-    #         for index, size in enumerate(self.getLastPageNum()):
-    #             if ((size < 3) and (size > 0)):
-    #                 self.pageNum[index] += 1
-    #                 for k in range(1, self.lastPageNum[index]+1, 1):
-    #                     shutil.copyfile(self.getImgFilePathList()[index] +  "\\" + str(self.imageNum[index]) + ".jpg",self.getImgFilePathList()[index] +  "\\" + str(self.imageNum[index]+1) + ".jpg")
-    #                     self.imgFileList[index].append(str(self.imageNum[index]+1) + ".jpg")
-    #                     self.imageNum[index] += 1
-    #         return None
-    #     except Exception as e:
-    #         errorMessage = "에러 발생", str(self.getWorkSheets()[index]) + "에 들어갈 " + str(self.imageNum[index]) + ".jpg 사진이 없습니다."
-    #         return errorMessage
+                    shutil.copyfile(self.getImgFilePathList()[index] +  "\\" + str(self.imgNum[index]) + ".jpg",self.getImgFilePathList()[index] +  "\\" + str(self.imgNum[index]+1) + ".jpg")
+                    self.imgFileList[index].append(str(self.imgNum[index]+1) + ".jpg")
+
 
     # 화살표를 복사해주는 함수
     def inputArrow(self, location_Row, index):
@@ -174,8 +158,8 @@ class Info:
     def inputImage(self, location_Row, location_Col, index):
         location = location_Col + str(location_Row)
         rng = self.ws[index].Range(location) 
-        ImagePath = self.getImgFilePathList()[index] + "/" + str(self.imageCycle) + ".jpg"
+        ImagePath = self.getImgFilePathList()[index] + "/" + str(self.imgCycle) + ".jpg"
         ImagePath = ImagePath.replace("/","\\")
         self.ws[index].Shapes.AddPicture(ImagePath, False,True, rng.Left, rng.Top, 247.68, 184.28)
-        self.imageCycle = self.imageCycle + 1
-        return(self.imageCycle) 
+        self.imgCycle = self.imgCycle + 1
+        return(self.imgCycle) 
