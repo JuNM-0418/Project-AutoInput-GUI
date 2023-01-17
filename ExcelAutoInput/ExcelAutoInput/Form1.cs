@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.IO;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
+
 
 
 namespace ExcelAutoInput
@@ -8,8 +11,10 @@ namespace ExcelAutoInput
     public partial class Form1 : Form
     {
 
-        ExcelDocumentInfo excelFileInfo = null;
-        DirectoryInfo di = null;
+        private ExcelDocumentInfo excelFileInfo = null;
+        private DirectoryInfo di = null;
+
+        
 
 
         public Form1()
@@ -38,9 +43,13 @@ namespace ExcelAutoInput
         }
         private void btnSelectSheet_Click(object sender, EventArgs e)
         {
-            foreach(string sheet in checkedListBox1.CheckedItems)
+            foreach (string checkedSheet in checkedListBox1.CheckedItems)
             {
-                excelFileInfo.SetSelectedSheetList(sheet);
+                foreach(Excel.Worksheet workSheet in excelFileInfo.GetWorkSheetList())
+                if(workSheet.Name == checkedSheet)
+                    {
+                        excelFileInfo.SetSelectedSheetList(workSheet);
+                    }
             }
             checkedListBox1.Enabled = false;
             btnSelectSheet.Enabled = false;
@@ -56,7 +65,7 @@ namespace ExcelAutoInput
             di = new DirectoryInfo(@folderBrowserDialog.SelectedPath);
             foreach (DirectoryInfo directory in di.EnumerateDirectories())
             {
-     
+
                 checkedListBox2.Items.Add(directory.Name);
             }
             btnSelectRootFolder.Enabled = false;
@@ -66,12 +75,16 @@ namespace ExcelAutoInput
         private void btnInputImage_Click(object sender, EventArgs e)
         {
             // 이미지의 갯수가 3의 배수가 아니면 복사하는 함수
+            for (int i = 0; i < checkedListBox2.CheckedItems.Count; i++)
+            {
+                excelFileInfo.DuplicateImg(excelFileInfo.GetSelectedImgFolderPathList()[i]);
+            }
+            excelFileInfo.InputImg();
+            // 화살표 넣어주는 함수
             // 조사표 내용 넣어주는 함수
             // 사진 번호 수식 넣어주는 함수
             // 결함 위치 내용 합쳐주는 함수
             // 사진 넣어주는 함수
-
-
             btnInputImage.Enabled = false;
         }
 
@@ -79,7 +92,7 @@ namespace ExcelAutoInput
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            System.Windows.Forms.Application.Exit();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -95,9 +108,9 @@ namespace ExcelAutoInput
         private void btnSelectImgFolder_Click(object sender, EventArgs e)
         {
             // 선택한 이미지 폴더 정보를 넘겨줘야함
-            foreach(string folderPath in checkedListBox2.CheckedItems)
+            foreach (string folderPath in checkedListBox2.CheckedItems)
             {
-                excelFileInfo.SetSelectedImgFolderPathList(di.FullName + folderPath);
+                excelFileInfo.SetSelectedImgFolderPathList(di.FullName + "\\" + folderPath);
             }
             checkedListBox2.Enabled = false;
             btnSelectImgFolder.Enabled = false;
