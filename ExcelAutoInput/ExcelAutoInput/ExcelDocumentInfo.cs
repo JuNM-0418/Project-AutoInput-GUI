@@ -11,7 +11,7 @@ namespace ExcelAutoInput
         private Excel.Application application = null;
         private string FileName = null;
         private Excel.Workbook WorkBook = null;
-        private Excel.Worksheet WorkSheet = null;
+        //private Excel.Worksheet WorkSheet = null;
         private List<Excel.Worksheet> WorkSheetList = null;
         private List<Excel.Worksheet> SelectedSheetList = null;
         private List<string> ImgFolderPathList = null;
@@ -20,10 +20,12 @@ namespace ExcelAutoInput
         private int LocationRowMid = 13; // 페이지 내 두번쨰 시작 행
         private int LocationRowBottom = 23; // 페이지 내 세번째 시작 행
         private int LocationColImg = 2; // 사진 삽입 고정 열
-        private string LocationColCheckNum = "U"; // 번호확인 함수 위치
-        private string LocationColExplainFunction = "O"; // 설명확인 함수 위치
+        //private string LocationColCheckNum = "U"; // 번호확인 함수 위치
+        // private string LocationColExplainFunction = "O"; // 설명확인 함수 위치
         private int ImgCycle = 1;   // 각 동의 폴더에서 넣을 사진의 순서
         private int SurveyDataCycle = 1; // 조사표 내용이 삽입되는 순서
+        private int PageNum = 0;
+
 
         // 다음 행의 위치를 반환하는 함수
         public int NextLocationRow(int locationRow)
@@ -33,45 +35,121 @@ namespace ExcelAutoInput
         }
 
         // 사진 넣어주는 함수
-        public void InputImg()
+        public void InputImg(Excel.Worksheet workSheet, string imgFolderPath)
         {
-            this.LocationRowTop= 3;
+            this.LocationRowTop = 3;
+
             this.LocationColImg = 2;
             this.ImgCycle = 1;
-            /**
-            foreach(Excel.Worksheet workSheet in this.GetSelectedSheetList())
-            {
 
+            for (int i = 0; i < this.GetPageNum(); i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Excel.Range range = workSheet.Cells[this.LocationRowTop + (j * 10), this.LocationColImg];
+                    string imgPath = imgFolderPath + "\\" + (this.ImgCycle).ToString() + ".jpg";
+                    workSheet.Shapes.AddPicture(@imgPath, 0, (Microsoft.Office.Core.MsoTriState)1, range.Left, range.Top, (float)246.68, (float)184.28);
+                    this.ImgCycle++;
+                }
+                this.LocationRowTop = this.NextLocationRow(this.LocationRowTop);
+                this.LocationRowMid = this.NextLocationRow(this.LocationRowMid);
+                this.LocationRowBottom = this.NextLocationRow(this.LocationRowBottom);
             }
-            */
-            Excel.Range range = this.GetSelectedSheetList()[0].Cells[this.LocationRowTop, this.LocationColImg];
-            string imgPath = this.GetSelectedImgFolderPathList()[0] + "\\" + this.ImgCycle.ToString() + ".jpg";
-            this.GetSelectedSheetList()[0].Shapes.AddPicture(@imgPath, 0, (Microsoft.Office.Core.MsoTriState)1, range.Left, range.Top, (float)246.68, (float)184.28);
         }
 
         // 화살표를 넣어주는 함수
-        public void InputArrow()
+        public void InputArrow(Excel.Worksheet workSheet)
         {
+            this.LocationRowTop = 3;
 
+            for (int i = 0; i < this.GetPageNum(); i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    workSheet.Range["Z1:AF4"].Copy(workSheet.Range["U" + (this.LocationRowTop + (j * 10))]);
+                    this.ImgCycle++;
+                }
+
+                this.LocationRowTop = this.NextLocationRow(this.LocationRowTop);
+            }
         }
-       
 
-        // 결함 위치 내용 합쳐주는 수식을 넣어주는 함수
-        public void InputCombineExcelFuncion()
+
+        // 결함이 있는 위치를 합쳐주는 수식을 넣어주는 함수
+        public void InputCombineExcelFunction(Excel.Worksheet workSheet)
         {
+            this.LocationRowTop = 3;
 
+            this.ImgCycle = 1;
+
+            for (int i = 0; i < this.GetPageNum(); i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    workSheet.Cells[this.LocationRowTop + 1 + (j * 10), 17].Value = workSheet.Cells[this.ImgCycle + 9, 33].Text + "\n" + workSheet.Cells.Cells[this.ImgCycle + 9, 35].Text;
+                    this.ImgCycle++;
+                }
+                this.LocationRowTop = this.NextLocationRow(this.LocationRowTop);
+            }
         }
 
-        // 사진 번호 수식 넣어주는 함수
-        public void InputImgNum()
+        // 설명 번호와 사진 번호가 맞는지 확인해주는 수식을 넣어주는 함수
+        public void InputCheckImgNumFunction(Excel.Worksheet workSheet)
         {
-
+            this.LocationRowTop = 3;
+            for (int i = 0; i < this.GetPageNum(); i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    workSheet.Cells[this.LocationRowTop + 1 + (j * 10), 21].Value = "=IF(MID(O" + (this.LocationRowTop + 1 + (j * 10)) + ",SEARCH(\".\",O" + (this.LocationRowTop + 1 + (j * 10)) + ",1),3)=MID(W" + (this.LocationRowTop + (j * 10) + 8) + ",SEARCH(\".\",W" + (this.LocationRowTop + (j * 10) + 8) + ",1),3),\"\",\"번호확인\")";
+                    workSheet.Cells[this.LocationRowTop + 1 + (j * 10), 21].Font.Color = -16776961;
+                }
+                this.LocationRowTop = this.NextLocationRow(this.LocationRowTop);
+            }
         }
 
         // 조사표 내용 넣어주는 함수
-        public void InputSurveyData()
+        public void InputSurveyData(Excel.Worksheet workSheet)
         {
+            this.LocationRowTop = 3;
+            this.SurveyDataCycle = 1;
 
+            for (int i = 0; i < this.GetPageNum(); i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    workSheet.Cells[this.LocationRowTop + (j * 10) + 8, 15].Value = workSheet.Cells[this.SurveyDataCycle + 9, 41];
+                    workSheet.Cells[this.LocationRowTop + (j * 10) + 8, 17].Value = workSheet.Cells[this.SurveyDataCycle + 9, 43];
+                    workSheet.Cells[this.LocationRowTop + (j * 10) + 8, 19].Value = workSheet.Cells[this.SurveyDataCycle + 9, 45];
+                    workSheet.Cells[this.LocationRowTop + (j * 10) + 8, 21].Value = workSheet.Cells[this.SurveyDataCycle + 9, 47];
+                    workSheet.Cells[this.LocationRowTop + (j * 10) + 8, 23].Value = workSheet.Cells[this.SurveyDataCycle + 9, 49];
+                    workSheet.Cells[this.LocationRowTop + (j * 10) + 8, 25].Value = workSheet.Cells[this.SurveyDataCycle + 9, 38];
+                    this.SurveyDataCycle++;
+                }
+                this.LocationRowTop = this.NextLocationRow(this.LocationRowTop);
+            }
+        }
+
+        // 설명 부분 내용을 합성해주는 수식을 삽입하는 함수
+        public void CombineSurveyData(Excel.Worksheet workSheet)
+        {
+            this.LocationRowTop = 3;
+            for (int i = 0; i < this.GetPageNum(); i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (workSheet.Cells[this.LocationRowTop + (j * 10) + 8, 25].Value == "균열")
+                    {
+                        workSheet.Cells[this.LocationRowTop + (j * 10) + 4, 15].Value = "=" + "U" + (this.LocationRowTop + (j * 10 + 8)) + "&" + "\"균열\"";
+                    }
+
+                    else
+                    {
+                        workSheet.Cells[this.LocationRowTop + (j * 10) + 4, 15].Value = workSheet.Cells[this.LocationRowTop + (j * 10) + 8, 25];
+                    }
+                }
+                this.LocationRowTop = this.NextLocationRow(this.LocationRowTop);
+            }
         }
 
         // 이미지의 갯수가 3의 배수가 아니면 복사하는 함수
@@ -150,19 +228,28 @@ namespace ExcelAutoInput
             return this.ImgFolderPathList;
         }
 
+        public void SetPageNum(string imgFolderPath)
+        {
+            DirectoryInfo di = new DirectoryInfo(imgFolderPath);
+            this.PageNum = di.EnumerateFiles("*.jpg", SearchOption.AllDirectories).Count() / 3;
+        }
+        public int GetPageNum()
+        {
+            return this.PageNum;
+        }
+
+        public void ShowExcel()
+        {
+            this.application.Visible = true;
+        }
 
         public ExcelDocumentInfo()
         {
             this.application = new Excel.Application();
-            this.application.Visible = true;
-
         }
         ~ExcelDocumentInfo()
         {
-            this.WorkBook.Close();
-            this.application.Quit();
-            Marshal.ReleaseComObject(this.WorkBook);
-            Marshal.ReleaseComObject(this.application);
+            this.application.Visible = true;
         }
 
     }

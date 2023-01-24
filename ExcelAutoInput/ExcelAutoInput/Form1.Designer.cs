@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.btnOpenFile = new System.Windows.Forms.Button();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.sheetListBox = new System.Windows.Forms.CheckedListBox();
             this.btnSelectSheet = new System.Windows.Forms.Button();
             this.btnSelectRootFolder = new System.Windows.Forms.Button();
             this.btnInputImage = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnExit = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.imgPathListBox = new System.Windows.Forms.CheckedListBox();
             this.btnSelectImgFolder = new System.Windows.Forms.Button();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // btnOpenFile
@@ -51,13 +51,13 @@
             this.btnOpenFile.UseVisualStyleBackColor = true;
             this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
-            // checkedListBox1
+            // sheetListBox
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(12, 50);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(208, 228);
-            this.checkedListBox1.TabIndex = 2;
+            this.sheetListBox.FormattingEnabled = true;
+            this.sheetListBox.Location = new System.Drawing.Point(12, 50);
+            this.sheetListBox.Name = "sheetListBox";
+            this.sheetListBox.Size = new System.Drawing.Size(208, 228);
+            this.sheetListBox.TabIndex = 2;
             // 
             // btnSelectSheet
             // 
@@ -89,9 +89,9 @@
             this.btnInputImage.UseVisualStyleBackColor = true;
             this.btnInputImage.Click += new System.EventHandler(this.btnInputImage_Click);
             // 
-            // openFileDialog1
+            // openFileDialog
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog.FileName = "openFileDialog";
             // 
             // btnExit
             // 
@@ -103,20 +103,20 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // progressBar1
+            // progressBar
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 360);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(422, 32);
-            this.progressBar1.TabIndex = 6;
+            this.progressBar.Location = new System.Drawing.Point(12, 360);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(422, 32);
+            this.progressBar.TabIndex = 6;
             // 
-            // checkedListBox2
+            // imgPathListBox
             // 
-            this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Location = new System.Drawing.Point(226, 50);
-            this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(208, 228);
-            this.checkedListBox2.TabIndex = 7;
+            this.imgPathListBox.FormattingEnabled = true;
+            this.imgPathListBox.Location = new System.Drawing.Point(226, 50);
+            this.imgPathListBox.Name = "imgPathListBox";
+            this.imgPathListBox.Size = new System.Drawing.Size(208, 228);
+            this.imgPathListBox.TabIndex = 7;
             // 
             // btnSelectImgFolder
             // 
@@ -128,26 +128,22 @@
             this.btnSelectImgFolder.UseVisualStyleBackColor = true;
             this.btnSelectImgFolder.Click += new System.EventHandler(this.btnSelectImgFolder_Click);
             // 
-            // folderBrowserDialog1
-            // 
-            this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 506);
             this.Controls.Add(this.btnSelectImgFolder);
-            this.Controls.Add(this.checkedListBox2);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.imgPathListBox);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnInputImage);
             this.Controls.Add(this.btnSelectRootFolder);
-            this.Controls.Add(this.checkedListBox1);
+            this.Controls.Add(this.sheetListBox);
             this.Controls.Add(this.btnSelectSheet);
             this.Controls.Add(this.btnOpenFile);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "안전점검";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
@@ -156,16 +152,16 @@
         #endregion
 
         private System.Windows.Forms.Button btnOpenFile;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox sheetListBox;
         private System.Windows.Forms.Button btnSelectSheet;
         private System.Windows.Forms.Button btnSelectRootFolder;
         private System.Windows.Forms.Button btnInputImage;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.CheckedListBox checkedListBox2;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.CheckedListBox imgPathListBox;
         private System.Windows.Forms.Button btnSelectImgFolder;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }
 
