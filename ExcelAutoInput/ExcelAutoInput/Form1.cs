@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -27,16 +28,26 @@ namespace ExcelAutoInput
         {
             excelFileInfo = new ExcelDocumentInfo();
             openFileDialog = new OpenFileDialog();
+            Console.Write(openFileDialog.FileName);
             openFileDialog.ShowDialog();
             excelFileInfo.SetFileName(openFileDialog.FileName);
-            excelFileInfo.SetWorkSheetList(excelFileInfo.OpenWorkbook());
-            for (int i = 0; i < excelFileInfo.GetWorkSheetList().Count; i++)
-            {
-                sheetListBox.Items.Add(excelFileInfo.GetWorkSheetList()[i].Name);
-            }
-            btnOpenFile.Enabled = false;
-            btnSelectSheet.Enabled = true;
 
+            if(excelFileInfo.GetFileName() != "")
+            {
+                excelFileInfo.SetWorkSheetList(excelFileInfo.OpenWorkbook());
+                for (int i = 0; i < excelFileInfo.GetWorkSheetList().Count; i++)
+                {
+                    sheetListBox.Items.Add(excelFileInfo.GetWorkSheetList()[i].Name);
+                }
+                btnOpenFile.Enabled = false;
+                btnSelectSheet.Enabled = true;
+                
+            }
+            else
+            {
+                MessageBox.Show("엑셀 파일을 선택해주세요", "오류", MessageBoxButtons.OK ,MessageBoxIcon.Error);
+            }
+            
         }
         private void btnSelectSheet_Click(object sender, EventArgs e)
         {
@@ -48,9 +59,17 @@ namespace ExcelAutoInput
                         excelFileInfo.SetSelectedSheetList(workSheet);
                     }
             }
-            sheetListBox.Enabled = false;
-            btnSelectSheet.Enabled = false;
-            btnSelectRootFolder.Enabled = true;
+            if(excelFileInfo.GetSelectedSheetList() != null)
+            {
+                sheetListBox.Enabled = false;
+                btnSelectSheet.Enabled = false;
+                btnSelectRootFolder.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("엑셀 시트를 선택해주세요", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
 
         }
 
@@ -59,13 +78,22 @@ namespace ExcelAutoInput
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             folderBrowserDialog.ShowDialog();
-            di = new DirectoryInfo(@folderBrowserDialog.SelectedPath);
-            foreach (DirectoryInfo directory in di.EnumerateDirectories())
+            if(folderBrowserDialog.SelectedPath != "")
             {
-                imgPathListBox.Items.Add(directory.Name);
+                di = new DirectoryInfo(@folderBrowserDialog.SelectedPath);
+                foreach (DirectoryInfo directory in di.EnumerateDirectories())
+                {
+                    imgPathListBox.Items.Add(directory.Name);
+                }
+
+                btnSelectRootFolder.Enabled = false;
+                btnSelectImgFolder.Enabled = true;
             }
-            btnSelectRootFolder.Enabled = false;
-            btnSelectImgFolder.Enabled = true;
+            else
+            {
+                MessageBox.Show("작업 폴더를 선택해주세요", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
         }
 
         private void btnInputImage_Click(object sender, EventArgs e)
