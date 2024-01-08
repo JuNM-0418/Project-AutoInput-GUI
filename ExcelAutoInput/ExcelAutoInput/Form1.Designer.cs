@@ -39,13 +39,16 @@
             this.imgPathListBox = new System.Windows.Forms.CheckedListBox();
             this.btnSelectImgFolder = new System.Windows.Forms.Button();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.surveySheetListBox = new System.Windows.Forms.CheckedListBox();
+            this.btnSelectSurveySheet = new System.Windows.Forms.Button();
+            this.btnSelectSurveySheetDone = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnOpenFile
             // 
             this.btnOpenFile.Location = new System.Drawing.Point(12, 12);
             this.btnOpenFile.Name = "btnOpenFile";
-            this.btnOpenFile.Size = new System.Drawing.Size(208, 32);
+            this.btnOpenFile.Size = new System.Drawing.Size(420, 32);
             this.btnOpenFile.TabIndex = 0;
             this.btnOpenFile.Text = "파일 열기";
             this.btnOpenFile.UseVisualStyleBackColor = true;
@@ -56,14 +59,14 @@
             this.sheetListBox.FormattingEnabled = true;
             this.sheetListBox.Location = new System.Drawing.Point(12, 50);
             this.sheetListBox.Name = "sheetListBox";
-            this.sheetListBox.Size = new System.Drawing.Size(208, 228);
+            this.sheetListBox.Size = new System.Drawing.Size(420, 84);
             this.sheetListBox.TabIndex = 2;
             // 
             // btnSelectSheet
             // 
-            this.btnSelectSheet.Location = new System.Drawing.Point(12, 284);
+            this.btnSelectSheet.Location = new System.Drawing.Point(12, 140);
             this.btnSelectSheet.Name = "btnSelectSheet";
-            this.btnSelectSheet.Size = new System.Drawing.Size(208, 32);
+            this.btnSelectSheet.Size = new System.Drawing.Size(420, 32);
             this.btnSelectSheet.TabIndex = 0;
             this.btnSelectSheet.Text = "시트 선택 완료";
             this.btnSelectSheet.UseVisualStyleBackColor = true;
@@ -71,9 +74,9 @@
             // 
             // btnSelectRootFolder
             // 
-            this.btnSelectRootFolder.Location = new System.Drawing.Point(226, 12);
+            this.btnSelectRootFolder.Location = new System.Drawing.Point(12, 178);
             this.btnSelectRootFolder.Name = "btnSelectRootFolder";
-            this.btnSelectRootFolder.Size = new System.Drawing.Size(208, 32);
+            this.btnSelectRootFolder.Size = new System.Drawing.Size(420, 32);
             this.btnSelectRootFolder.TabIndex = 3;
             this.btnSelectRootFolder.Text = "사진 폴더 선택";
             this.btnSelectRootFolder.UseVisualStyleBackColor = true;
@@ -81,7 +84,7 @@
             // 
             // btnInputImage
             // 
-            this.btnInputImage.Location = new System.Drawing.Point(12, 322);
+            this.btnInputImage.Location = new System.Drawing.Point(12, 478);
             this.btnInputImage.Name = "btnInputImage";
             this.btnInputImage.Size = new System.Drawing.Size(422, 32);
             this.btnInputImage.TabIndex = 4;
@@ -95,7 +98,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(12, 398);
+            this.btnExit.Location = new System.Drawing.Point(12, 554);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(422, 32);
             this.btnExit.TabIndex = 5;
@@ -105,7 +108,7 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(12, 360);
+            this.progressBar.Location = new System.Drawing.Point(12, 516);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(422, 32);
             this.progressBar.TabIndex = 6;
@@ -113,27 +116,58 @@
             // imgPathListBox
             // 
             this.imgPathListBox.FormattingEnabled = true;
-            this.imgPathListBox.Location = new System.Drawing.Point(226, 50);
+            this.imgPathListBox.Location = new System.Drawing.Point(12, 216);
             this.imgPathListBox.Name = "imgPathListBox";
-            this.imgPathListBox.Size = new System.Drawing.Size(208, 228);
+            this.imgPathListBox.Size = new System.Drawing.Size(420, 68);
             this.imgPathListBox.TabIndex = 7;
             // 
             // btnSelectImgFolder
             // 
-            this.btnSelectImgFolder.Location = new System.Drawing.Point(226, 284);
+            this.btnSelectImgFolder.Location = new System.Drawing.Point(12, 290);
             this.btnSelectImgFolder.Name = "btnSelectImgFolder";
-            this.btnSelectImgFolder.Size = new System.Drawing.Size(208, 32);
+            this.btnSelectImgFolder.Size = new System.Drawing.Size(420, 32);
             this.btnSelectImgFolder.TabIndex = 8;
             this.btnSelectImgFolder.Text = "사진 폴더 선택 완료";
             this.btnSelectImgFolder.UseVisualStyleBackColor = true;
             this.btnSelectImgFolder.Click += new System.EventHandler(this.btnSelectImgFolder_Click);
             // 
+            // surveySheetListBox
+            // 
+            this.surveySheetListBox.FormattingEnabled = true;
+            this.surveySheetListBox.Location = new System.Drawing.Point(12, 366);
+            this.surveySheetListBox.Name = "surveySheetListBox";
+            this.surveySheetListBox.Size = new System.Drawing.Size(420, 68);
+            this.surveySheetListBox.TabIndex = 7;
+            // 
+            // btnSelectSurveySheet
+            // 
+            this.btnSelectSurveySheet.Location = new System.Drawing.Point(10, 328);
+            this.btnSelectSurveySheet.Name = "btnSelectSurveySheet";
+            this.btnSelectSurveySheet.Size = new System.Drawing.Size(422, 32);
+            this.btnSelectSurveySheet.TabIndex = 9;
+            this.btnSelectSurveySheet.Text = "조사표 시트 선택";
+            this.btnSelectSurveySheet.UseVisualStyleBackColor = true;
+            this.btnSelectSurveySheet.Click += new System.EventHandler(this.btnSelectSurveySheet_Click);
+            // 
+            // btnSelectSurveySheetDone
+            // 
+            this.btnSelectSurveySheetDone.Location = new System.Drawing.Point(10, 440);
+            this.btnSelectSurveySheetDone.Name = "btnSelectSurveySheetDone";
+            this.btnSelectSurveySheetDone.Size = new System.Drawing.Size(422, 32);
+            this.btnSelectSurveySheetDone.TabIndex = 9;
+            this.btnSelectSurveySheetDone.Text = "조사표 시트 선택 완료";
+            this.btnSelectSurveySheetDone.UseVisualStyleBackColor = true;
+            this.btnSelectSurveySheetDone.Click += new System.EventHandler(this.btnSelectSurveySheetDone_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 506);
+            this.ClientSize = new System.Drawing.Size(444, 651);
+            this.Controls.Add(this.btnSelectSurveySheetDone);
+            this.Controls.Add(this.btnSelectSurveySheet);
             this.Controls.Add(this.btnSelectImgFolder);
+            this.Controls.Add(this.surveySheetListBox);
             this.Controls.Add(this.imgPathListBox);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.btnExit);
@@ -162,6 +196,9 @@
         private System.Windows.Forms.CheckedListBox imgPathListBox;
         private System.Windows.Forms.Button btnSelectImgFolder;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.CheckedListBox surveySheetListBox;
+        private System.Windows.Forms.Button btnSelectSurveySheet;
+        private System.Windows.Forms.Button btnSelectSurveySheetDone;
     }
 }
 

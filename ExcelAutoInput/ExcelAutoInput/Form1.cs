@@ -22,6 +22,8 @@ namespace ExcelAutoInput
             btnSelectRootFolder.Enabled = false;
             btnSelectImgFolder.Enabled = false;
             btnInputImage.Enabled = false;
+            btnSelectSurveySheet.Enabled = false;
+            btnSelectSurveySheetDone.Enabled = false;
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e)
@@ -88,12 +90,14 @@ namespace ExcelAutoInput
 
                 btnSelectRootFolder.Enabled = false;
                 btnSelectImgFolder.Enabled = true;
+                
             }
             else
             {
                 MessageBox.Show("작업 폴더를 선택해주세요", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
+            
         }
 
         private void btnInputImage_Click(object sender, EventArgs e)
@@ -110,6 +114,7 @@ namespace ExcelAutoInput
             for (int i = 0; i < imgPathListBox.CheckedItems.Count; i++)
             {
                 progressBar.PerformStep();
+
                 // 이미지의 갯수가 3의 배수가 아니면 복사하는 함수
                 excelFileInfo.DuplicateImg(excelFileInfo.GetSelectedImgFolderPathList()[i]);
                 // 페이지 갯수 설정 함수
@@ -117,15 +122,17 @@ namespace ExcelAutoInput
                 // 사진 넣어주는 함수
                 excelFileInfo.InputImg(excelFileInfo.GetSelectedSheetList()[i], excelFileInfo.GetSelectedImgFolderPathList()[i]);
                 // 결함 위치를 넣어주는 함수
-                excelFileInfo.InputCombineExcelFunction(excelFileInfo.GetSelectedSheetList()[i]);
+                //excelFileInfo.InputCombineExcelFunction(excelFileInfo.GetSelectedSheetList()[i]);
                 // 화살표를 넣어주는 함수
                 excelFileInfo.InputArrow(excelFileInfo.GetSelectedSheetList()[i]);
                 // 설명 번호와 사진 번호가 맞는지 확인하는 수식을 넣어주는 함수
                 excelFileInfo.InputCheckImgNumFunction(excelFileInfo.GetSelectedSheetList()[i]);
                 // 조사표 내용을 넣어주는 함수
-                excelFileInfo.InputSurveyData(excelFileInfo.GetSelectedSheetList()[i]);
+                //excelFileInfo.InputSurveyData(excelFileInfo.GetSelectedSheetList()[i]);
                 // 설명 내용을 합쳐주는 함수
-                excelFileInfo.CombineSurveyData(excelFileInfo.GetSelectedSheetList()[i]);
+                //excelFileInfo.CombineSurveyData(excelFileInfo.GetSelectedSheetList()[i]);
+                // 조사표 내용을 연동시켜주는 함수
+                excelFileInfo.InputSurveyData(excelFileInfo.GetSelectedSurveySheetList()[i], excelFileInfo.GetSelectedSheetList()[i]);
 
             }
             MessageBox.Show("완료되었습니다.");
@@ -143,7 +150,6 @@ namespace ExcelAutoInput
 
         }
 
-
         private void btnSelectImgFolder_Click(object sender, EventArgs e)
         {
             foreach (string folderPath in imgPathListBox.CheckedItems)
@@ -152,7 +158,47 @@ namespace ExcelAutoInput
             }
             imgPathListBox.Enabled = false;
             btnSelectImgFolder.Enabled = false;
-            btnInputImage.Enabled = true;
+            btnSelectSurveySheet.Enabled = true;
+            
+        }
+
+        private void btnSelectSurveySheet_Click(object sender, EventArgs e)
+        {
+            btnSelectSurveySheet.Enabled = false;
+            btnSelectSurveySheetDone.Enabled = true;
+
+            excelFileInfo.SetWorkSheetList(excelFileInfo.OpenWorkbook());
+            for (int i = 0; i < excelFileInfo.GetWorkSheetList().Count; i++)
+            {
+                surveySheetListBox.Items.Add(excelFileInfo.GetWorkSheetList()[i].Name);
+            }
+        }
+
+        private void btnSelectSurveySheetDone_Click(object sender, EventArgs e)
+        {
+            btnSelectSurveySheetDone.Enabled = false;
+
+
+            foreach (string checkedSheet in surveySheetListBox.CheckedItems)
+            {
+                foreach (Excel.Worksheet workSheet in excelFileInfo.GetWorkSheetList())
+                    if (workSheet.Name == checkedSheet)
+                    {
+                        excelFileInfo.SetSelectedSurveySheetList(workSheet);
+                    }
+            }
+            if (excelFileInfo.GetSelectedSurveySheetList() != null)
+            {
+                surveySheetListBox.Enabled = false;
+                btnSelectSurveySheet.Enabled = false;
+                btnSelectSurveySheetDone.Enabled = false;
+                btnInputImage.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("엑셀 시트를 선택해주세요", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }
